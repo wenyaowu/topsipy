@@ -5,6 +5,13 @@ Tosipy is a python client library for the Topsy web APIs.
 Topsy is a Twitter partner which resell and analyze data. 
 Topsy APIs provide the comprehensive analytics or social data project.
 
+## Requirement
+You will need an APIs key in order to access the web APIs service.
+For more information, please go to [Topsy API Service](http://api.topsy.com/)
+
+## Documentation
+You can find Topsy APIs documentation [here](http://api.topsy.com/doc/)
+
 ## Dependencies
 - [Requests] (https://github.com/kennethreitz/requests) - Topsipy use requests package.
 
