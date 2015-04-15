@@ -31,8 +31,6 @@ class Topsipy(object):
             tp = topsipy.Topsipy()
 
     """
-
-
     trace = False  # Enable tracing?
     max_get_retries = 5  # Max attempts for GET request
 
@@ -152,7 +150,6 @@ class Topsipy(object):
     def _warn(self, msg):
         print('warning:' + msg)
 
-
     def tweet(self, postid):
         """ Returns a tweet given a tweet id.
         If a tweet is not found, a ’200 OK’ response will still be sent, but the response body will be empty
@@ -168,3 +165,21 @@ class Topsipy(object):
         :return: tweets
         """
         return self._get('content/tweet.json', postids=','.join(postids))
+
+    def top_tweets(self, q=None, sort_by=None, offset=0, limit=5):
+        """
+        Provides the top tweets for a list of terms and additional search parameters.
+        The ranking is determined by the sort method.
+        :param q: (optional)
+        Query term(s) to return matching results for.
+        If omitted, trending tweets from all Twitter are shown.
+        :param sort_by: (optional)
+        Sort Method
+        :param offset: (optional)
+        Offset from which to start the results. (default=0)
+        :param limit: (optional)
+        Maximum number of results returned. (default: 5, max: 500).
+        :return: List of tweets
+        """
+        return self._get('content/tweets.json', q=q, sort_by=sort_by, offset=offset, limit=limit)
+
