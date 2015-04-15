@@ -159,4 +159,12 @@ class Topsipy(object):
         :param: A tweet id
         :return: a tweet
         """
-        return self._get('content/tweet.json?postids=' + postid)
+        return self._get('content/tweet.json', postids=postid)
+
+    def tweets(self, postids):
+        """ Returns several tweets given tweet ids.
+        If a tweet is not found, a ’200 OK’ response will still be sent, but the response body will be empty
+        :param: A list of tweet ids
+        :return: tweets
+        """
+        return self._get('content/tweet.json', postids=','.join(postids))
