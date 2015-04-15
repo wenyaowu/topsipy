@@ -1,7 +1,7 @@
 # Topsipy - A simple Python wrapper for the Topsy web APIs.
 
 ## Description
-Tosipy is a client library for the Topsy web APIs.
+Tosipy is a python client library for the Topsy web APIs.
 Topsy is a Twitter partner which resell and analyze data. 
 Topsy APIs provide the comprehensive analytics or social data project.
 
