@@ -319,7 +319,8 @@ class Topsipy(object):
     def sentiment(self, q=None, slice=None, *args):
         """
         Returns the Topsy Sentiment Score over time.
-        The Topsy Sentiment Score, ranging from 0 to 100, is a normalized score based on sentiment on all tweet mentioning the query term(s) in the specified time period.
+        The Topsy Sentiment Score, ranging from 0 to 100, is a normalized score based on
+        sentiment on all tweet mentioning the query term(s) in the specified time period.
         :param q:(Optional)
         Query string
         :param slice:(Optional)
@@ -338,3 +339,39 @@ class Topsipy(object):
         """
         return self._get('metrics/geo.json', q=q, scope=scope)
 
+#------------------------------------------------------------------------------------#
+#                                    Insights APIs:                                  #
+# Topsy Insights APIs leverage full-Firehose analysis to surface key influencers,    #
+# hashtags, and topics related to your topic of interest.                            #
+#------------------------------------------------------------------------------------#
+
+    def related_terms(self, q=None, sort_by=None, *args):
+        """
+        Returns a list of related terms for terms entered.
+        :param q:
+        Query term(s) to return related terms for. If omitted, trending terms from all Twitter are shown.
+        :param sort_by: Sorting Method.
+        """
+        return self._get('insights/relatedterms.json', q=q, sort_by=sort_by, args=args)
+
+    def influencers(self, q=None, sort_by=None, *args):
+        """
+        Provides a list of authors who mention the specified query term(s),
+        sorted by frequency of tweets and the author’s influence level.
+        :param q:
+        Terms to find influencers for. If no term is entered, no influencers are returned.
+        :param sort_by: Sorting Method.
+        """
+        return self._get('insights/influencers.json', q=q, sort_by=sort_by, args=args)
+
+    def author(self, authors, *args):
+        """
+        return the information of the author on twitter
+        :param authors:
+        Twitter author’s handle (@username), can be a comma-separated list for multiple authors.
+        :return:
+        """
+        if isinstance(authors, list):
+            authors = ','.join(authors)
+
+        return self._get('insights/author.json', authors=authors, args=args)
