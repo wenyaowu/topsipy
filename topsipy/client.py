@@ -48,6 +48,11 @@ class Topsipy(object):
             :param client_credentials_manager:
             TopsipyClientCredentials object
         """
+
+        if api_key == '':
+            print 'Warn: You need to provide API key in order to use the API.'
+            return
+
         self.prefix = 'http://api.topsy.com/v2/'
         self.client_credentials_manager = client_credentials_manager
         self.api_key = api_key
