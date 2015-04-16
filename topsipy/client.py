@@ -156,19 +156,16 @@ class Topsipy(object):
 # tweets related to them, among other things.                                        #
 #------------------------------------------------------------------------------------#
 
-    def tweet(self, postid):
-        """ Returns a tweet given a tweet id.
+    def tweet(self, postids):
+        """ Returns tweet(s) given tweet id(s).
         If a tweet is not found, a ’200 OK’ response will still be sent, but the response body will be empty
-        :param: A tweet id
+        :param postids:
+        A tweet id/ list of ids
         """
-        return self._get('content/tweet.json', postids=postid)
+        if isinstance(postids, list):
+            postid = ','.join(postids)
+        return self._get('content/tweet.json', postids=postids)
 
-    def tweets(self, postids):
-        """ Returns several tweets given tweet ids.
-        If a tweet is not found, a ’200 OK’ response will still be sent, but the response body will be empty
-        :param: A list of tweet ids
-        """
-        return self._get('content/tweet.json', postids=','.join(postids))
 
     def bulktweets(self, q=None, limit=10, *args):
         """
@@ -182,7 +179,7 @@ class Topsipy(object):
         """
         return self._get('content/bulktweets.json', q=q, limit=limit, args=args)
 
-    def top_tweets(self, q=None, sort_by=None, offset=0, limit=5, *args):
+    def tweets(self, q=None, sort_by=None, offset=0, limit=5, *args):
         """
         Provides the top tweets for a list of terms and additional search parameters.
         The ranking is determined by the sort method.
