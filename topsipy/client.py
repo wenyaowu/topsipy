@@ -28,7 +28,7 @@ class Topsipy(object):
         Example usage::
             import topsipy
 
-            tp = topsipy.Topsipy()
+            tp = topsipy.Topsipy(api_key=API_KEY)
 
     """
     trace = False  # Enable tracing?
@@ -130,7 +130,6 @@ class Topsipy(object):
     def next(self, result):
         """
         :param result: a previously returned paged result
-        :return: the next result given a paged result
         """
         if result['next']:
            return self._get(result['next'])
@@ -140,7 +139,6 @@ class Topsipy(object):
     def previous(self, result):
         """
         :param result: a previously returned paged result
-        :return: a previously returned paged result
         """
         if result['previous']:
            return self._get(result['previous'])
@@ -150,11 +148,18 @@ class Topsipy(object):
     def _warn(self, msg):
         print('warning:' + msg)
 
+#------------------------------------------------------------------------------------#
+#                                    Content APIs:                                   #
+# These resources let you retrieve every single tweet or only the most relevant ones #
+# (e.g. newest or oldest tweets, tweets with the most reach) for any topic.          #
+# You can also find content (links, photos and videos) shared on Twitter and all the #
+# tweets related to them, among other things.                                        #
+#------------------------------------------------------------------------------------#
+
     def tweet(self, postid):
         """ Returns a tweet given a tweet id.
         If a tweet is not found, a ’200 OK’ response will still be sent, but the response body will be empty
         :param: A tweet id
-        :return: a tweet
         """
         return self._get('content/tweet.json', postids=postid)
 
@@ -162,7 +167,6 @@ class Topsipy(object):
         """ Returns several tweets given tweet ids.
         If a tweet is not found, a ’200 OK’ response will still be sent, but the response body will be empty
         :param: A list of tweet ids
-        :return: tweets
         """
         return self._get('content/tweet.json', postids=','.join(postids))
 
@@ -175,7 +179,6 @@ class Topsipy(object):
         If no term is entered, then trending posts results are returned for all of Twitter.
         :param limit:(optional)
         Maximum number of results returned. (default: 10, max: 20000).
-        :return: tweets
         """
         return self._get('content/bulktweets.json', q=q, limit=limit, args=args)
 
@@ -192,7 +195,6 @@ class Topsipy(object):
         Offset from which to start the results. (default=0)
         :param limit: (optional)
         Maximum number of results returned. (default: 5, max: 500).
-        :return: List of tweets
         """
         return self._get('content/tweets.json', q=q, sort_by=sort_by, offset=offset, limit=limit, args=args)
 
@@ -209,7 +211,6 @@ class Topsipy(object):
         Offset from which to start the results. (default=0)
         :param limit: (optional)
         Maximum number of results returned. (default: 5, max: 500).
-        :return: List of photos
         """
         return self._get('content/photos.json', q=q, sort_by=sort_by, offset=offset, limit=limit, args=args)
 
@@ -226,7 +227,6 @@ class Topsipy(object):
         Offset from which to start the results. (default=0)
         :param limit: (optional)
         Maximum number of results returned. (default: 5, max: 500).
-        :return: List of links
         """
         return self._get('content/links.json', q=q, sort_by=sort_by, offset=offset, limit=limit, args=args)
 
@@ -243,7 +243,6 @@ class Topsipy(object):
         Offset from which to start the results. (default=0)
         :param limit: (optional)
         Maximum number of results returned. (default: 5, max: 500).
-        :return: List of videos
         """
         return self._get('content/videos.json', q=q, sort_by=sort_by, offset=offset, limit=limit, args=args)
 
@@ -260,7 +259,6 @@ class Topsipy(object):
         Offset from which to start the results. (default=0)
         :param limit: (optional)
         Maximum number of results returned. (default: 5, max: 500).
-        :return: track back of a URL
         """
         return self._get('content/citations.json', url=url, sort_by=sort_by, offset=offset, limit=limit, args=args)
 
@@ -268,7 +266,6 @@ class Topsipy(object):
         """
         Provides the full reply thread to a specific tweet.
         :param url:The permalink of the tweet.
-        :return: Reply thread to a tweet/URL
         """
         return self._get('content/conversation.json', url=url)
 
@@ -277,6 +274,66 @@ class Topsipy(object):
         Returns true if a tweet is still valid, false otherwise.
         This is useful to check for tweet deletions that occur after a tweet was first returned.
         :param postid: A comma-separated list of tweet IDs.
-        :return: True or False
         """
         return self._get('content/validate.json', postid=postid)
+
+#------------------------------------------------------------------------------------#
+#                                    Metrics APIs:                                   #
+# Metrics are statistics derived from analyzing the full Twitter Firehose, available #
+# in real time (up to the minute) as data is being posted on Twitter, as well as     #
+# going back to July 2010. Metrics are available in minute, hour, or day granularity.#                                       #
+#------------------------------------------------------------------------------------#
+
+    def mentions(self, q=None, slice=None, cumulative=0, *args):
+        """
+        Provides volume of tweet mentions over time for a list of keywords.
+        :param q: (Optional)
+        Query string.
+        :param slice: (Optional)
+        Value in seconds for each time slice.
+        :param cumulative: (Optional)
+        When enabled (cumulative=1), metrics are cumulative from previous slice values.
+        """
+        return self._get('metrics/mentions.json', q=q, slice=slice, cumulative=cumulative, args=args)
+
+    def citation_metrics(self, url, *args):
+        """
+        Provides volume of tweet mentions over time for a list of keywords.
+        :param url:
+        Query string.
+        """
+        return self._get('metrics/mentions.json', url=url, args=args)
+
+    def impressions(self, q=None, slice=None, cumulative=0, *args):
+        """
+        Provides volume of tweet mentions over time for a list of keywords.
+        :param q: (Optional)
+        Query string.
+        :param slice: (Optional)
+        Value in seconds for each time slice.
+        :param cumulative: (Optional)
+        When enabled (cumulative=1), metrics are cumulative from previous slice values.
+        """
+        return self._get('metrics/impressions.json', q=q, slice=slice, cumulative=cumulative, args=args)
+
+    def sentiment(self, q=None, slice=None, *args):
+        """
+        Returns the Topsy Sentiment Score over time.
+        The Topsy Sentiment Score, ranging from 0 to 100, is a normalized score based on sentiment on all tweet mentioning the query term(s) in the specified time period.
+        :param q:(Optional)
+        Query string
+        :param slice:(Optional)
+        Value in seconds for each time slice.
+        """
+        return self._get('metrics/sentiment.json', q=q, slice=slice, args=args)
+
+    def geo(self, q=None, scope=None):
+        """
+        Provides mention metrics in a specific region and its corresponding subregions for a list of query terms.
+        If no region is specified, mentions for all countries are returned.
+        :param q:
+        :param scope:
+        Location filter to restrict results by city, U.S. state or country.
+        If no region is specified, mentions for all countries are returned.
+        """
+        return self._get('metrics/geo.json', q=q, scope=scope)
