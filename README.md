@@ -41,3 +41,4 @@ If you find any problems or have any suggestions or such, please post them [here
 ## Version
 
 - 1.0 - 04/15/2015 - Initial Commit
+- 1.0.1 - o4/16/2015 - Complete featues
