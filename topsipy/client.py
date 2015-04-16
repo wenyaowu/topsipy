@@ -337,3 +337,4 @@ class Topsipy(object):
         If no region is specified, mentions for all countries are returned.
         """
         return self._get('metrics/geo.json', q=q, scope=scope)
+
