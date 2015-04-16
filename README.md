@@ -15,6 +15,15 @@ You can find Topsy APIs documentation [here](http://api.topsy.com/doc/)
 ## Dependencies
 - [Requests] (https://github.com/kennethreitz/requests) - Topsipy use requests package.
 
+## Installation
+If you already have [Python](http://www.python.org/) on your system you can install the library simply by downloading the distribution, unpack it and install in the usual fashion:
+
+    python setup.py install
+
+You can also install it using a popular package manager with 
+
+  `pip install spotipy`
+
 ## Simple Example
 To get started, install topsipy, create a Topsipy object with your api key and call the method:
 
