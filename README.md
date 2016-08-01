@@ -22,7 +22,7 @@ If you already have [Python](http://www.python.org/) on your system you can inst
 
 You can also install it using a popular package manager with 
 
-  `pip install spotipy`
+  `pip install topsipy`
 
 ## Simple Example
 To get started, install topsipy, create a Topsipy object with your api key and call the method:
